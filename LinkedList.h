@@ -1,6 +1,7 @@
 #pragma once
 #include "LinkedListInterface.h"
 #include <sstream>
+#include <iostream>
 
 using namespace std;
 
@@ -19,13 +20,14 @@ private :
     };
     
     Node *head;
-    int size;
 
 public : 
-    LinkedListInterface() {
+    LinkedList() {
         head = NULL;
     };
-	~LinkedListInterface() {};
+	~LinkedList() {
+		clear();
+	};
 
 	/*
 	insertHead
@@ -35,10 +37,21 @@ public :
 	Do not allow duplicate values in the list.
 	*/
 	void insertHead(T value){
+		//check to see if it's a duplicate
+		for(Node *pseudoIterator = head; pseudoIterator != NULL; pseudoIterator = pseudoIterator->next){
+			cout << "Insert Head duplicate checking" << endl;
+			if(pseudoIterator->value == value)
+				return;
+		}
+		
+		//create our new Node
 	    Node *newNode = new Node(value);
+	    
+	    //have it point to the previously first Node
 	    newNode->next = head;
+	    
+	    //make our newNode the head
 	    head = newNode;
-	    size += 1; 
 	}
 
 	/*
@@ -49,21 +62,31 @@ public :
 	Do not allow duplicate values in the list.
 	*/
 	void insertTail(T value){
+		//check to see if it's a duplicate
+		for(Node *pseudoIterator = head; pseudoIterator != NULL; pseudoIterator = pseudoIterator->next){
+			cout << "Insert Tail duplicate checking" << endl;
+			if(pseudoIterator->value == value)
+				return;
+		}
+		
 	    //create the Node we want to insert
 	    Node *newNode = new Node(value);
 	    
 	    //check if it's the first item to be added
 	    if(head == NULL)
 	        head = newNode;
+
+	    else{
+	    	//iterate through to the end of the list
+	    	Node *pseudoIterator = head;
+	    	while(pseudoIterator->next != NULL){
+	    	    pseudoIterator = pseudoIterator->next;
+	    	    cout << "Insert Tail iterating to the end of the list" << endl;
+	    	}
 	    
-	    //iterate through to the end of the list
-	    Node *pseudoIterator = head;
-	    while(pseudoIterator->next != NULL){
-	        pseudoIterator = pseudoIterator->next;
+	    	//change the last item to point to our new item
+	    	pseudoIterator->next = newNode;
 	    }
-	    
-	    //change the last item to point to our new item
-	    pseudoIterator->next = newNode;
 	}
 
 	/*
@@ -78,13 +101,20 @@ public :
 	void insertAfter(T value, T insertionNode){
 	    Node *pseudoIterator = head;
 	    while(pseudoIterator->next != NULL){
-	        if(pseudoIterator->value == insertionNode){
+	    	if(pseudoIterator->value == value)//is it a duplicate?
+	    		break;
+	        else if(pseudoIterator->value == insertionNode){//is it the Node we're looking for?
+	        	//we've found it!
+	        	//first create a new node
 	            Node *newNode = new Node(value);
+	            
+	            //
 	            newNode->next = pseudoIterator->next;
 	            pseudoIterator->next = newNode;
-	            break;
+	            break;//our work here is done
 	        }
 		    pseudoIterator = pseudoIterator->next;
+		    cout << "Insert After looking for the Node to insert After" << endl;
 	    }
 	}
 
@@ -103,6 +133,7 @@ public :
 	            aboutToBeDeletedNode = pseudoIterator; // let's mark it
 	            pseudoIterator = head; //start the iteration over again
 	            while(pseudoIterator->next != NULL){
+	            	cout << "Remove funct iteration after it found it" << endl;
 	                if(pseudoIterator->next == aboutToBeDeletedNode){//found it, but we stopped one ahead of it
 	                    //now we change what it points to to skip  
 	                    //over the one we want to delete
@@ -114,6 +145,7 @@ public :
 	            }
 	        }
 	        pseudoIterator = pseudoIterator->next;
+	        cout << "Remove funct first iteration" << endl;
 	    }
 	}
 
@@ -125,6 +157,7 @@ public :
 	void clear(){
 		Node *pseudoIterator = head;
 		while(pseudoIterator != NULL){
+			cout << "Clear funct iterating through to clear" << endl;
 			Node *nextNode = pseudoIterator->next;
 			delete pseudoIterator;
 			pseudoIterator = nextNode;
@@ -144,6 +177,7 @@ public :
 	    Node *pseudoIterator = head;
 	    int count = 0; //let's keep track of where we're at
 	    while(pseudoIterator != NULL){
+	    	cout << "@funct iterating through to find an index" << endl;
 	    	if(count == index){ //we're arrived at our desired location
 	    		return pseudoIterator->value;//thank you for flying with linkedAir
 	    		break;
@@ -161,9 +195,14 @@ public :
 	Returns the number of nodes in the list.
 	*/
 	int size(){
-	    int count = 0;
+		//check to see if the list is empty
+	    if(head == NULL)
+	    	return 0;
+	    	
+	    int count = 1;
 	    for(Node *pseudoIterator = head; pseudoIterator != NULL; pseudoIterator = pseudoIterator->next){
 	    	count += 1;
+	    	cout << "Counting how long our list is in the size() funct" << endl;
 	    }
 	    return count;
 	}
@@ -182,8 +221,10 @@ public :
 	    Node *pseudoIterator = head;
 	    while(pseudoIterator->next != NULL){
 	        to_string << pseudoIterator->value;
+	        cout << "One tostring, coming riggggght up!" << endl;
 	        if(pseudoIterator->next != NULL)
 	            to_string << " ";
+	        pseudoIterator = pseudoIterator->next;
 	    }
 	    return to_string.str();
 	}
