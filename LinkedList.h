@@ -122,7 +122,15 @@ public :
 
 	Remove all nodes from the list.
 	*/
-	void clear(){}
+	void clear(){
+		Node *pseudoIterator = head;
+		while(pseudoIterator != NULL){
+			Node *nextNode = pseudoIterator->next;
+			delete pseudoIterator;
+			pseudoIterator = nextNode;
+		}
+		head = NULL;
+	}
 
 	/*
 	at
@@ -133,7 +141,18 @@ public :
 	If the given index is out of range of the list, throw an out of range exception.
 	*/
 	T at(int index){
-	    
+	    Node *pseudoIterator = head;
+	    int count = 0; //let's keep track of where we're at
+	    while(pseudoIterator != NULL){
+	    	if(count == index){ //we're arrived at our desired location
+	    		return pseudoIterator->value;//thank you for flying with linkedAir
+	    		break;
+	    	} else {
+	    		count += 1;
+	    		pseudoIterator = pseudoIterator->next;
+	    	}
+	    	
+	    }
 	}
 
 	/*
@@ -142,7 +161,11 @@ public :
 	Returns the number of nodes in the list.
 	*/
 	int size(){
-	    return size;
+	    int count = 0;
+	    for(Node *pseudoIterator = head; pseudoIterator != NULL; pseudoIterator = pseudoIterator->next){
+	    	count += 1;
+	    }
+	    return count;
 	}
 
 	/*
