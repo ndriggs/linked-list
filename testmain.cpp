@@ -5,13 +5,26 @@
 using namespace std;
 
 int main(){
-    LinkedList<string> line;
-    line.insertHead("It's a beautiful day in the neighborhood");
-    line.insertTail("a beautiful day in the neighborhood");
-    line.insertTail("Oh won't you be mine");
-    line.insertTail("Oh won't you be my neighbor!");
-    line.insertHead("Lyrics to Mr. Rogers Neighborhood: ");
-    line.insertAfter("Indeed it is Mr. Rogers", "It's a beautiful day in the neighborhood");
+    LinkedList<int> line;
+    cout << "about to add 1" << endl;
+    line.insertHead(1);
     cout << line.toString() << endl;
+    cout << "just tostringed 1" << endl;
+    cout << line.size() << endl;
+    line.insertTail(2);
+    cout << line.toString() << endl;
+    cout << line.size() << endl;
+    line.insertTail(4);
+    cout << line.toString() << endl;
+    cout << line.size() << endl;
+    line.insertTail(5);
+    cout << line.toString() << endl;
+    cout << line.size() << endl;
+    line.insertHead(0);
+    cout << line.toString() << endl;
+    cout << line.size() << endl;
+    line.insertAfter(3, 2);
+    cout << line.toString() << endl;
+    cout << line.size() << endl;
     return 0;
 } 
