@@ -39,9 +39,9 @@ printList
 remove Combing
 remove leavening.
 remove computerviruses
-size 16
+size 15
 printList
-  Combing Coming back to where you started is not the same as never leaving. -Terry Pratchett
+  Coming back to where you started is not the same as never leaving. -Terry Pratchett
 clear
 size 0
 printList

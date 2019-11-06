@@ -18,12 +18,13 @@ private :
         T value;
         Node *next;
     };
-    
+    int num;
     Node *head;
 
 public : 
     LinkedList() {
         head = NULL;
+        num = 0;
     };
 	~LinkedList() {
 		clear();
@@ -52,6 +53,9 @@ public :
 	    
 	    //make our newNode the head
 	    head = newNode;
+	    
+	    //increase the numNodes
+	    num += 1;
 	}
 
 	/*
@@ -87,6 +91,8 @@ public :
 	    	//change the last item to point to our new item
 	    	pseudoIterator->next = newNode;
 	    }
+	    //increase the count by one
+	    num += 1;
 	}
 
 	/*
@@ -102,8 +108,12 @@ public :
 	    Node *pseudoIterator = head;
 	    while(pseudoIterator != NULL){
 	    	if(pseudoIterator->value == value)//is it a duplicate?
-	    		break;
-	        else if(pseudoIterator->value == insertionNode){//is it the Node we're looking for?
+	    		return;
+	    	pseudoIterator = pseudoIterator->next;
+	    }
+	    pseudoIterator = head; //no duplicate found, let's iterate again!
+	    while(pseudoIterator != NULL){
+	        if(pseudoIterator->value == insertionNode){//is it the Node we're looking for?
 	        	//we've found it!
 	        	//first create a new node
 	            Node *newNode = new Node(value);
@@ -111,6 +121,7 @@ public :
 	            //
 	            newNode->next = pseudoIterator->next;
 	            pseudoIterator->next = newNode;
+	            num += 1;
 	            break;//our work here is done
 	        }
 		    pseudoIterator = pseudoIterator->next;
@@ -126,36 +137,32 @@ public :
 	The list may or may not include a node with the given value.
 	*/
 	void remove(T value){    //NEXT CHALLENGE: REMOVE 0, WHEN ZERO IS THE HEAD
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	    Node *pseudoIterator = head;
 	    Node *aboutToBeDeletedNode;
 	    
 	    while(pseudoIterator != NULL){
 	        if(pseudoIterator->value == value){ // found it!
-	            aboutToBeDeletedNode = pseudoIterator; // let's mark it
-	            pseudoIterator = head; //start the iteration over again
-	            while(pseudoIterator->next != NULL){
-	            	//cout << "Remove funct iteration after it found it" << endl;
-	                if(pseudoIterator->next == aboutToBeDeletedNode){//found it, but we stopped one ahead of it
-	                    //now we change what it points to to skip  
-	                    //over the one we want to delete
-	                    pseudoIterator->next = aboutToBeDeletedNode->next;
-	                    delete aboutToBeDeletedNode; //it just got deleted
-	                    break; //let's blow this popsicle stand
-	                }
-	                pseudoIterator = pseudoIterator->next;
-	            }
+	        	if(pseudoIterator == head){ //Special Case - it just so happends to be the first one
+	        		head = pseudoIterator->next;
+	        		delete pseudoIterator;
+	        		num -= 1;
+	        		break;
+	        	}else{ // what we do for a normal case
+		            aboutToBeDeletedNode = pseudoIterator; // we found it, now let's mark it
+		            pseudoIterator = head; //start the iteration over again
+		            while(pseudoIterator != NULL){
+		            	//cout << "Remove funct iteration after it found it" << endl;
+		                if(pseudoIterator->next == aboutToBeDeletedNode){//found it, but we stopped one ahead of it
+		                    //now we change what it points to to skip  
+		                    //over the one we want to delete
+		                    pseudoIterator->next = aboutToBeDeletedNode->next;
+		                    delete aboutToBeDeletedNode; //it just got deleted
+		                    num -= 1;
+		                    break; //let's blow this popsicle stand
+		                }
+		                pseudoIterator = pseudoIterator->next;
+		            }
+	        	}
 	        }
 	        pseudoIterator = pseudoIterator->next;
 	        //cout << "Remove funct first iteration" << endl;
@@ -177,6 +184,7 @@ public :
 			pseudoIterator = nextNode;
 		}
 		head = NULL;
+		num = 0;
 	}
 
 	/*
@@ -214,7 +222,7 @@ public :
 	*/
 	int size(){
 		//check to see if the list is empty
-	    if(head == NULL)
+	    /**if(head == NULL)
 	    	return 0;
 	    	
 	    int count = 0;
@@ -222,7 +230,8 @@ public :
 	    	count += 1;
 	    	//cout << "Counting how long our list is in the size() funct" << endl;
 	    }
-	    return count;
+	    return count;**/
+	    return num;
 	}
 
 	/*

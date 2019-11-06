@@ -36,9 +36,9 @@ size 11
 printList
   0 1 2 3 4 5 6 7 8 9 12
 remove 0
-size 11
+size 10
 printList
-  0 1 2 3 4 5 6 7 8 9 12
+  1 2 3 4 5 6 7 8 9 12
 clear
 size 0
 printList
